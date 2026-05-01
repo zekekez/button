@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dad Joke Button</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a2e;
+    font-family: 'Segoe UI', sans-serif;
+    color: #eee;
+  }
+  #joke {
+    font-size: 1.4rem;
+    max-width: 600px;
+    text-align: center;
+    min-height: 80px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    line-height: 1.6;
+  }
+  button {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ff4444, #cc0000);
+    border: 6px solid #990000;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 -4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.1s, box-shadow 0.1s;
+    user-select: none;
+  }
+  button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.3);
+  }
+  button:hover { filter: brightness(1.1); }
+</style>
+</head>
+<body>
+  <p id="joke">Press the button for a dad joke!</p>
+  <button onclick="getJoke()">😂<br>JOKE ME</button>
+  <script>
+    async function getJoke() {
+      try {
+        const res = await fetch('https://icanhazdadjoke.com/', {
+          headers: { 'Accept': 'application/json' }
+        });
+        const data = await res.json();
+        document.getElementById('joke').textContent = data.joke;
+      } catch {
+        document.getElementById('joke').textContent = "Why did the API fail? Because it couldn't handle the pressure! (Try again)";
+      }
+    }
+  </script>
+</body>
+</html>
